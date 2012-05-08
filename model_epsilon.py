@@ -13,7 +13,7 @@ def model_eps(q,rs,ThomasFermi=True):
 
   if ( ThomasFermi == True):
 
-    Fq =1.0
+    Fq = 1.0
 
   else:
 
@@ -35,6 +35,7 @@ def main():
     sys.exit(0)
 
   outputFile = open('epsinv.dat','w')
+  outputFile.write('# q/kF, 1/epsilon(ThomasFermi), 1/epsilon(Lindhard)\n')
 
   for iq in numpy.arange(0.1,4.0, 0.05):
 
