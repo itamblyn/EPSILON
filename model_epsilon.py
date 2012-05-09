@@ -37,9 +37,33 @@ def main():
   outputFile = open('epsinv.dat','w')
   outputFile.write('# q/kF, 1/epsilon(ThomasFermi), 1/epsilon(Lindhard)\n')
 
-  for iq in numpy.arange(0.1,4.0, 0.05):
+  epsinv = []
 
+  iq_array = numpy.arange(0.01,100.0, 0.05)
+ 
+  for iq in iq_array:
+    epsinv.append(1/model_eps(iq,rs,True)) # store the lindhard value in an array
     outputFile.write(str(iq)+ ' ' + str(1/model_eps(iq,rs,True)) + ' ' + str(1/model_eps(iq,rs,False)) + '\n')
+
+  outputFile.close()
+
+### now let's look at this in real space
+### (this part is still in development...
+
+  epsinv = numpy.array(epsinv)
+
+  from numpy.fft import fft, fftfreq
+  sp = fft(epsinv)
+  freq = fftfreq(iq_array.shape[-1])
+
+  outputFile = open('sp.dat','w')
+  outputFile.write('# ALERT, this file isn't ready yet ir, 1/epsilon(Lindhard)\n')
+
+
+  for ir in range(len(sp)):
+    outputFile.write(str(freq[ir])+ ' ' + str(sp[ir].imag) + '\n')
+
+  outputFile.close()
 
 # This executes main() only if executed from shell
 if __name__ == '__main__':
